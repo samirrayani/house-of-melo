@@ -1,29 +1,45 @@
 import type { Metadata } from "next";
-import { Oswald, Outfit } from "next/font/google";
+import { Instrument_Serif, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
-const oswald = Oswald({
-  variable: "--font-oswald",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "400",
+  style: ["normal", "italic"],
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
 });
 
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://house-of-melo.vercel.app"),
-  title: "House of Melo | Where Tomorrows Are Promised",
+  title: {
+    default: "House of Melo | The Carmelo Anthony Archive",
+    template: "%s | House of Melo",
+  },
   description:
-    "An interactive tribute and community empowerment symposium honoring 2025 NBA Hall of Famer Carmelo Anthony and his hometown Baltimore, MD. Enoch Pratt Free Library.",
+    "The definitive digital archive honoring 2025 NBA Hall of Famer Carmelo Anthony. From Baltimore to the Hall of Fame — a legacy preserved.",
   openGraph: {
-    title: "House of Melo | Where Tomorrows Are Promised",
+    title: "House of Melo | The Carmelo Anthony Archive",
     description:
-      "An interactive tribute and community empowerment symposium honoring 2025 NBA Hall of Famer Carmelo Anthony and his hometown Baltimore, MD.",
+      "The definitive digital archive honoring 2025 NBA Hall of Famer Carmelo Anthony. From Baltimore to the Hall of Fame.",
     type: "website",
+    siteName: "House of Melo",
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
@@ -34,8 +50,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${oswald.variable} ${outfit.variable} antialiased`}>
-        {children}
+      <body
+        className={`${instrumentSerif.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}
+      >
+        <Header />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

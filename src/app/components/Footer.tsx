@@ -1,64 +1,90 @@
 import Image from "next/image";
+import Link from "next/link";
+
+const sections = [
+  { label: "Baltimore", href: "/baltimore" },
+  { label: "The Rise", href: "/the-rise" },
+  { label: "Greatness", href: "/greatness" },
+  { label: "Beyond the Court", href: "/beyond" },
+  { label: "Community", href: "/community" },
+  { label: "The Memoir", href: "/the-memoir" },
+  { label: "The Exhibition", href: "/exhibition" },
+];
 
 export default function Footer() {
   return (
-    <footer className="bg-black border-t border-white/10">
-      <div className="max-w-[1520px] mx-auto px-6 py-16 md:py-20">
-        <div className="flex flex-col items-center text-center gap-8">
-          <Image
-            src="/logo.png"
-            alt="House of Melo"
-            width={160}
-            height={64}
-            className="h-16 w-auto opacity-80"
-          />
-
-          <div className="space-y-2 text-muted text-sm">
-            <p>Enoch Pratt Free Library, Baltimore, MD</p>
-            <p>
-              Press inquiries:{" "}
-              <a
-                href="mailto:Katie@PressOnComms.Biz"
-                className="text-white hover:text-accent transition-colors"
-              >
-                Katie@PressOnComms.Biz
-              </a>
+    <footer className="bg-bg border-t border-border">
+      <div className="max-w-[1400px] mx-auto px-6 py-16 md:py-24">
+        <div className="grid md:grid-cols-3 gap-12 md:gap-16">
+          {/* Brand */}
+          <div className="space-y-6">
+            <Image
+              src="/logo.png"
+              alt="House of Melo"
+              width={140}
+              height={56}
+              className="h-14 w-auto opacity-80"
+            />
+            <p className="text-text-muted text-sm leading-relaxed max-w-xs">
+              The definitive digital archive honoring 2025 NBA Hall of Famer
+              Carmelo Anthony. From Baltimore to the Hall of Fame.
             </p>
           </div>
 
-          <div className="flex items-center gap-6 text-sm text-muted">
-            <a
-              href="https://www.prattlibrary.org/carmelo-anthony"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
-            >
-              Visit the Experience
-            </a>
-            <span className="text-white/20">|</span>
-            <a
-              href="https://www.amazon.com/Where-Tomorrows-Arent-Promised-Survival/dp/1982160594"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
-            >
-              The Book
-            </a>
+          {/* Archive Sections */}
+          <div>
+            <p className="font-mono text-xs uppercase tracking-widest text-primary mb-6">
+              Archive
+            </p>
+            <nav className="flex flex-col gap-3">
+              {sections.map((section) => (
+                <Link
+                  key={section.href}
+                  href={section.href}
+                  className="text-text-muted hover:text-text transition-colors text-sm"
+                >
+                  {section.label}
+                </Link>
+              ))}
+            </nav>
           </div>
 
-          <div className="pt-8 border-t border-white/5 w-full text-center text-xs text-muted/60">
-            <p>
-              Website by{" "}
-              <a
-                href="https://treehaus.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white transition-colors"
-              >
-                Treehaus
-              </a>
+          {/* Contact */}
+          <div>
+            <p className="font-mono text-xs uppercase tracking-widest text-primary mb-6">
+              Contact
             </p>
+            <div className="space-y-3 text-sm text-text-muted">
+              <p>Enoch Pratt Free Library</p>
+              <p>Baltimore, MD</p>
+              <p className="pt-2">
+                Press inquiries:{" "}
+                <a
+                  href="mailto:Katie@PressOnComms.Biz"
+                  className="text-text hover:text-primary transition-colors"
+                >
+                  Katie@PressOnComms.Biz
+                </a>
+              </p>
+            </div>
           </div>
+        </div>
+
+        <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-text-muted/60">
+            Website by{" "}
+            <a
+              href="https://treehaus.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-text transition-colors"
+            >
+              Treehaus
+            </a>
+          </p>
+          <p className="text-xs text-text-muted/40">
+            Where Tomorrows Are Promised
+          </p>
         </div>
       </div>
     </footer>

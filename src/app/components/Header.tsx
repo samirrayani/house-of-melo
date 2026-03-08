@@ -3,19 +3,25 @@
 import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import Link from "next/link";
 
-const navLinks = [
-  { label: "Experience", href: "#experience" },
-  { label: "Legacy", href: "#legacy" },
-  { label: "Press", href: "#press" },
-  { label: "Partners", href: "#partners" },
+const sections = [
+  { label: "Baltimore", href: "/baltimore", number: "01" },
+  { label: "The Rise", href: "/the-rise", number: "02" },
+  { label: "Greatness", href: "/greatness", number: "03" },
+  { label: "Beyond the Court", href: "/beyond", number: "04" },
+  { label: "Community", href: "/community", number: "05" },
+  { label: "The Memoir", href: "/the-memoir", number: "06" },
+  { label: "The Exhibition", href: "/exhibition", number: "07" },
 ];
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -35,12 +41,14 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          scrolled ? "bg-black/90 backdrop-blur-sm" : "bg-transparent"
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+          scrolled
+            ? "bg-bg/90 backdrop-blur-md border-b border-border"
+            : "bg-transparent"
         }`}
       >
-        <div className="max-w-[1520px] mx-auto flex items-center justify-between px-6 py-4 md:py-5">
-          <a href="#" className="relative z-50">
+        <div className="max-w-[1400px] mx-auto flex items-center justify-between px-6 py-4 md:py-5">
+          <Link href="/" className="relative z-50">
             <Image
               src="/logo.png"
               alt="House of Melo"
@@ -49,38 +57,26 @@ export default function Header() {
               className="h-10 md:h-12 w-auto"
               priority
             />
-          </a>
-
-          <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="font-display text-sm uppercase tracking-[0.2em] text-white/80 hover:text-white transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
+          </Link>
 
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="relative z-50 md:hidden flex flex-col gap-1.5 p-2"
+            className="relative z-50 flex flex-col gap-1.5 p-2 group"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             <span
-              className={`block w-6 h-[2px] bg-white transition-all duration-300 ${
-                menuOpen ? "rotate-45 translate-y-[5px]" : ""
+              className={`block w-7 h-[1.5px] bg-text transition-all duration-300 ${
+                menuOpen ? "rotate-45 translate-y-[7px]" : ""
               }`}
             />
             <span
-              className={`block w-6 h-[2px] bg-white transition-all duration-300 ${
-                menuOpen ? "opacity-0" : ""
+              className={`block w-7 h-[1.5px] bg-text transition-all duration-300 ${
+                menuOpen ? "opacity-0" : "group-hover:w-5"
               }`}
             />
             <span
-              className={`block w-6 h-[2px] bg-white transition-all duration-300 ${
-                menuOpen ? "-rotate-45 -translate-y-[5px]" : ""
+              className={`block w-7 h-[1.5px] bg-text transition-all duration-300 ${
+                menuOpen ? "-rotate-45 -translate-y-[1px]" : ""
               }`}
             />
           </button>
@@ -88,27 +84,36 @@ export default function Header() {
       </header>
 
       {menuOpen &&
-        typeof document !== "undefined" &&
+        mounted &&
         createPortal(
-          <div className="fixed inset-0 z-[999] bg-black flex flex-col items-center justify-center gap-8">
+          <div className="fixed inset-0 z-[999] bg-bg flex items-center justify-center">
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-5 right-6 p-2"
+              className="absolute top-5 right-6 p-2 z-50"
               aria-label="Close menu"
             >
-              <span className="block w-6 h-[2px] bg-white rotate-45 translate-y-[1px]" />
-              <span className="block w-6 h-[2px] bg-white -rotate-45 -translate-y-[1px]" />
+              <span className="block w-7 h-[1.5px] bg-text rotate-45 translate-y-[1px]" />
+              <span className="block w-7 h-[1.5px] bg-text -rotate-45 -translate-y-[1px]" />
             </button>
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="font-display text-3xl uppercase tracking-[0.3em] text-white hover:text-accent transition-colors"
-              >
-                {link.label}
-              </a>
-            ))}
+
+            <nav className="flex flex-col gap-2 px-8 w-full max-w-2xl">
+              {sections.map((section, i) => (
+                <Link
+                  key={section.href}
+                  href={section.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="group flex items-baseline gap-6 py-3 border-b border-border hover:border-primary transition-colors"
+                  style={{ animationDelay: `${i * 0.05}s` }}
+                >
+                  <span className="font-mono text-xs text-text-muted group-hover:text-primary transition-colors">
+                    {section.number}
+                  </span>
+                  <span className="font-display text-3xl md:text-5xl italic text-text group-hover:text-primary transition-colors">
+                    {section.label}
+                  </span>
+                </Link>
+              ))}
+            </nav>
           </div>,
           document.body
         )}
